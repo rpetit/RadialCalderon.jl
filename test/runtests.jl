@@ -1,6 +1,7 @@
 using RadialCalderon
 using Test
+using Aqua
 
-@testset "RadialCalderon.jl" begin
-    # Write your tests here.
+@testset "Aqual.jl" begin
+    Aqua.test_all(RadialCalderon)
 end
