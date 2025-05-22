@@ -9,3 +9,27 @@ EditURL = "https://github.com/rpetit/RadialCalderon.jl/blob/main/README.md"
 [![Build Status](https://github.com/rpetit/RadialCalderon.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/rpetit/RadialCalderon.jl/actions/workflows/CI.yml?query=branch%3Amain)
 
 A Julia package for studying the Calderon problem with piecewise constant radial conductivities.
+
+## Installation
+
+```
+pkg> add https://github.com/rpetit/RadialCalderon.jl
+```
+
+## Citation
+
+If you use this package in your research, please cite the following preprint.
+
+```bibtex
+@misc{ClariceGiovanniRomain2025,
+    title = {Numerical study of a convex programming approach to the Calder{\'o}n problem},
+    author = {Clarice, Giovanni, Romain},
+    year = {2025},
+    number = {arXiv:0000.00000},
+    eprint = {0000.00000},
+    primaryclass = {math},
+    publisher = {arXiv}
+}
+```
+
+

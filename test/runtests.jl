@@ -7,5 +7,5 @@ using Aqua
 end
 
 @testset "Forward" begin
-    include("test_radial.jl")
+    include("test_forward.jl")
 end

@@ -1,5 +1,6 @@
 using RadialCalderon
 using Documenter
+using DocumenterCitations
 using Literate
 
 open(joinpath(joinpath(@__DIR__, "src"), "index.md"), "w") do io
