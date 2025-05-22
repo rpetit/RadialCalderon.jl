@@ -1,3 +1,7 @@
+```@meta
+EditURL = "https://github.com/rpetit/RadialCalderon.jl/blob/main/README.md"
+```
+
 # RadialCalderon.jl
 
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://rpetit.github.io/RadialCalderon.jl/dev/)
