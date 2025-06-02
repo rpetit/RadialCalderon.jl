@@ -66,6 +66,7 @@ function solve_system(problem::ForwardProblem, j, σ)
 
     L = build_system(problem, j, σ)
 
+    # TODO: clean up
     # prob = LinearProblem(L, rhs)
     # sol = LinearSolve.solve(prob)
     # return sol.u

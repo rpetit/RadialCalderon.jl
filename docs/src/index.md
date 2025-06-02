@@ -10,11 +10,14 @@ EditURL = "https://github.com/rpetit/RadialCalderon.jl/blob/main/README.md"
 
 A Julia package for studying the Calderon problem with piecewise constant radial conductivities.
 
-## Installation
+## Getting started
+To install this package, run the following command from the REPL in Pkg mode.
 
 ```
 pkg> add https://github.com/rpetit/RadialCalderon.jl
 ```
+
+Tutorials and examples are available in the [documentation](https://rpetit.github.io/RadialCalderon.jl/dev/).
 
 ## Citation
 
