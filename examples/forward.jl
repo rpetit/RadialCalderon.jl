@@ -4,7 +4,7 @@
 Here we show how to evaluate the forward map associated to the Calderon problem with radial piecewise constant conductivities. We also show how to evaluate its derivatives via automatic differentiation.
 =#
 
-using RadialCalderon: ForwardProblem, forward_map
+using RadialCalderon
 
 # ## Setting
 
@@ -73,5 +73,7 @@ d(j) = (1/σ1-1)*(σ1+σ2)*r[1]^(2*j) + (1/σ1+1)*(σ1-σ2)*r[2]^(2*j)
 
 #=
 ```@bibliography
+Pages = ["forward.md"]
+Canonical = false
 ```
 =#

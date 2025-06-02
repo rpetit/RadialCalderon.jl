@@ -40,7 +40,8 @@ end
 pages = [
     "Home" => "index.md",
     "Tutorials" => [
-        "Forward map" => joinpath("examples", "forward.md")
+        "Forward map" => joinpath("examples", "forward.md"),
+        "Nonlinear SDP" => joinpath("examples", "nonlinear_sdp.md")
     ],
     "API reference" => "api.md"
 ]

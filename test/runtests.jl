@@ -9,3 +9,7 @@ end
 @testset "Forward" begin
     include("test_forward.jl")
 end
+
+@testset "Nonlinear SDP" begin
+    include("test_nonlinear_sdp.jl")
+end

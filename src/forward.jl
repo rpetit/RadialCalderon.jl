@@ -55,7 +55,7 @@ end
 """
 Solve for the coefficients α and β. Output contains (α1, β1, ..., α_{n-1}, β_{n-1})
 """
-function solve_system(problem::ForwardProblem, j, σ)
+function solve_system(problem::ForwardProblem, j::Integer, σ::Vector)
     rhs = zeros(eltype(σ), 2*(problem.n-1))  # right hand side of the system
     k = 2*(problem.n-1)-1  # index corresponding to α_{n-1}
 
@@ -77,7 +77,7 @@ end
 """
 Neumann-to-Dirichlet forward map
 """
-function forward_map(problem::ForwardProblem, j, σ)
+function forward_map(problem::ForwardProblem, j::Integer, σ::Vector)
     αβ = solve_system(problem, j, σ)
     α1 = αβ[1]
     β1 = αβ[2]

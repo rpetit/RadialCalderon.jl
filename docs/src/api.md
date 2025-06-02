@@ -8,4 +8,10 @@ CollapsedDocStrings = true
 
 ```@docs
 ForwardProblem
+ConvexCalderonProblem
+```
+
+## Resolution
+```@docs
+estimate_c
 ```
