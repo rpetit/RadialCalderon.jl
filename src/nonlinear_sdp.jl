@@ -23,10 +23,10 @@ end
 """
 $(SIGNATURES)
 
-Estimate the weight vector defining the objective of the convex nonlinear SDP problem.
+Build the 
 """
-function estimate_c(σ::Matrix, a::Real, b::Real, m::Integer, forward::ForwardProblem;
-                    max_last_coord=false, quiet=true)
+function build_c_estimation_problem(σ::Matrix, a::Real, b::Real, m::Integer,        
+                                    forward::ForwardProblem; max_last_coord=false)
     (n, nσ) = size(σ)
     jac_forward = zeros(m, n, nσ)
 
@@ -37,11 +37,7 @@ function estimate_c(σ::Matrix, a::Real, b::Real, m::Integer, forward::ForwardPr
         jac_forward[:, :, l] .= dΛ(σ[:, l])
     end
 
-    model = Model(Ipopt.Optimizer)
-    if quiet
-        set_attribute(model, "print_level", 0)  # set print level to 0
-        set_attribute(model, "sb", "yes")  # remove Ipopt header
-    end
+    model = Model()
 
     @variable(model, z[1:m, l=1:nσ] >= 0)
     @variable(model, c[1:n] >= 0)
@@ -62,7 +58,5 @@ function estimate_c(σ::Matrix, a::Real, b::Real, m::Integer, forward::ForwardPr
         @objective(model, Max, c[n])
     end
 
-    optimize!(model)
-
-    return value.(c), model
+    return model
 end

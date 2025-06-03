@@ -1,4 +1,4 @@
-using RadialCalderon: build_system, solve_system, forward_map
+using RadialCalderon: build_system, solve_system
 
 @testset "constructor" begin
     r = [0.5, 0.25]

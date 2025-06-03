@@ -13,10 +13,9 @@ using DocStringExtensions
 using DifferentiationInterface
 using ForwardDiff
 using JuMP
-using Ipopt
 
 export ForwardProblem, forward_map
-export ConvexCalderonProblem, estimate_c
+export ConvexCalderonProblem, build_c_estimation_problem
 
 include("forward.jl")
 include("nonlinear_sdp.jl")

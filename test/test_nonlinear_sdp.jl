@@ -1,5 +1,6 @@
 using Base.Iterators: product
-using JuMP: is_solved_and_feasible
+using JuMP
+import Ipopt
 
 @testset "constructor" begin
     r = [0.5, 0.25]
@@ -29,16 +30,24 @@ end
     σ = hcat(collect.(collect(prod_it))...)
     σ = σ[:, 1:end-1]  # remove b*ones(n)
 
-    c, model = estimate_c(σ, a, b, m, forward; max_last_coord=true)
+    model = build_c_estimation_problem(σ, a, b, m, forward; max_last_coord=true)
+    optimizer = optimizer_with_attributes(Ipopt.Optimizer, "print_level" => 0, 
+                                          "sb" => "yes")
+    set_optimizer(model, optimizer)
+    optimize!(model)
 
     # the problem is not feasible for n=2 and m=2
     @test !is_solved_and_feasible(model)
 
     m = 3
-    c, model = estimate_c(σ, a, b, m, forward; max_last_coord=true)
+    model = build_c_estimation_problem(σ, a, b, m, forward; max_last_coord=true)
+    set_optimizer(model, optimizer)
+    optimize!(model)
 
     # the probme is feasible for n=2 and m=3
     @test is_solved_and_feasible(model)
+
+    c = value.(model[:c])
     @test c[1] ≈ 1.0
     @test c[2] > 0.0 && c[2] < 1.0
 end

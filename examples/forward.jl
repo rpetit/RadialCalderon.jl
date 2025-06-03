@@ -29,7 +29,7 @@ m = 5
 # ## Derivatives
 
 #=
-The first and second order derivatives of $\Lambda$ can be computed via automatic differentiation.
+The first and second order derivatives of $\Lambda$ can be computed via automatic differentiation. The automatic differentiation backend (here [ForwardDiff](https://github.com/JuliaDiff/ForwardDiff.jl)) can be changed easily thanks to the [DifferentiationInterface](https://github.com/JuliaDiff/DifferentiationInterface.jl) package.
 =#
 
 using DifferentiationInterface

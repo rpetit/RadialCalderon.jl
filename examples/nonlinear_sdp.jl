@@ -26,7 +26,7 @@ b = 1.5;
 # ## Estimation of the weight vector
 
 #=
-For a given $m$, one can rely on the function [`estimate_c`](@ref) to try to find a universal vector $c$. Below, we check that, when $n=2$, this is possible for $m=3$ but not for $m=2$. First, we define a set of conductivities which will be used to estimate $c$.
+For a given $m$, one can try to find a universal vector $c$ by solving a feasibility problem constructed via [`build_c_estimation_problem`](@ref). Below, we check that, when $n=2$, this is possible for $m=3$ but not for $m=2$. First, we define a set of conductivities which will be used to estimate $c$.
 =#
 
 using Base.Iterators: product
@@ -38,28 +38,48 @@ prod_it = product([range(a, b, k) for i=1:forward.n]...)
 σ = σ[:, 1:end-1];  # remove b*ones(n)
 
 #=
+We build the $c$ estimation problem for $m=2$ and check that it is not feasible. The problem is a linear program, so that any suitable solver other than Ipopt can be used (in our experiments, MOSEK performed best).
+=#
+
+using JuMP
+import Ipopt
+
+m = 2
+model = build_c_estimation_problem(σ, a, b, m, forward)
+optimizer = optimizer_with_attributes(Ipopt.Optimizer, "print_level" => 0, "sb" => "yes")
+set_optimizer(model, optimizer)
+optimize!(model)
+
+#=
 We check that there is no admissible vector $c$ for $m=2$.
 =#
 
-using JuMP: is_solved_and_feasible
-
-m = 2
-c, model = estimate_c(σ, a, b, m, forward)
-@info is_solved_and_feasible(model)
+is_solved_and_feasible(model)
 
 #=
 We check that there is an admissible vector $c$ for $m=3$.
 =#
 
 m = 3
-c, model = estimate_c(σ, a, b, m, forward)
-@info is_solved_and_feasible(model)
-@info c
+model = build_c_estimation_problem(σ, a, b, m, forward)
+set_optimizer(model, optimizer)
+optimize!(model)
+is_solved_and_feasible(model)
+
+#=
+The estimated vector $c$ can be accessed as follows.
+=#
+
+c = value.(model[:c])
+
+#=
+We stress that, when $n$ is larger, the tolerance of the solver might have to be adjusted to ensure that the problem is solved with good precision.
+=#
 
 # ## Resolution of the convex nonlinear SDP
 
 #=
-TODO
+Once the weight vector $c$ is estimated, one can solve the convex nonlinear SDP defined above.
 =#
 
 # ## References

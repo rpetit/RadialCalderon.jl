@@ -13,5 +13,5 @@ ConvexCalderonProblem
 
 ## Resolution
 ```@docs
-estimate_c
+build_c_estimation_problem
 ```
