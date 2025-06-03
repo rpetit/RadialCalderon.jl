@@ -23,7 +23,35 @@ end
 """
 $(SIGNATURES)
 
-Build the 
+Build the convex nonlinear SDP associated to the input Calderon problem
+"""
+function build_nonlinear_sdp(problem::ConvexCalderonProblem, σ_init::Vector; reg_param=0.0)
+    obj(σ, p) = sum(problem.c .* σ)
+
+    m = length(problem.obs)
+    
+    lb = problem.a .* ones(problem.forward.n)  # lower bound on variables
+    ub = problem.b .* ones(problem.forward.n)  # upper bound on variables
+
+    function cons(res, σ, p)
+        for j=1:m
+            res[j] = forward_map(problem.forward, j, σ)
+        end
+    end
+
+    lcons = (-Inf).*ones(m)  # no lower bound constraint
+    ucons = problem.obs .+ reg_param  # Harrach's SDP constraint
+
+    optprob = OptimizationFunction(obj, Optimization.AutoForwardDiff(), cons=cons)
+    prob = OptimizationProblem(optprob, σ_init, lcons=lcons, ucons=ucons, lb=lb, ub=ub)
+
+    return prob
+end
+
+"""
+$(SIGNATURES)
+
+Build the feasibility problem used to estimate the weight vector
 """
 function build_c_estimation_problem(σ::Matrix, a::Real, b::Real, m::Integer,        
                                     forward::ForwardProblem; max_last_coord=false)

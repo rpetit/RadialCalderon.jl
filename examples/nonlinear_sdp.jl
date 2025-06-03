@@ -79,8 +79,28 @@ We stress that, when $n$ is larger, the tolerance of the solver might have to be
 # ## Resolution of the convex nonlinear SDP
 
 #=
-Once the weight vector $c$ is estimated, one can solve the convex nonlinear SDP defined above.
+Once the weight vector $c$ is estimated, one can solve the convex nonlinear SDP defined above. To do so, we build the problem using [`build_nonlinear_sdp`](@ref) and use the [Optimization](https://github.com/SciML/Optimization.jl) package with the Ipopt solver.
 =#
+
+using Optimization, OptimizationMOI
+
+σ_true = [0.8, 1.2]  # unknown conductivity
+obs = [forward_map(forward, j, σ_true) for j=1:m]  # observations
+problem = ConvexCalderonProblem(c, a, b, obs, forward)
+
+σ_init = (0.9*b) .* ones(forward.n)  # intial guess
+prob = build_nonlinear_sdp(problem, σ_init)  # container for the nonlinear SDP
+
+optimizer = OptimizationMOI.MOI.OptimizerWithAttributes(
+    Ipopt.Optimizer,
+    "print_level" => 0,
+    "sb" => "yes"
+)
+
+sol = solve(prob, optimizer)
+σ_hat = sol.u
+
+isapprox(σ_hat, σ_true, rtol=1e-6)
 
 # ## References
 

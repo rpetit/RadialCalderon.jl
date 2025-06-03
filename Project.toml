@@ -8,10 +8,12 @@ DifferentiationInterface = "a0c0ee7d-e4b9-4e03-894e-1c5f64a51d63"
 DocStringExtensions = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
 ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210"
 JuMP = "4076af6c-e467-56ae-b986-b466b2749572"
+Optimization = "7f7a1694-90dd-40f0-9382-eb1efda571ba"
 
 [compat]
 DifferentiationInterface = "0.7.0"
 DocStringExtensions = "0.9.4"
-ForwardDiff = "1.0.1"
+ForwardDiff = "0.10.38"
 JuMP = "1.26.0"
+Optimization = "4.3.0"
 julia = "1.10"
