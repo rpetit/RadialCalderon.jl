@@ -25,7 +25,7 @@ If you use this package in your research, please cite the following preprint.
 
 ```bibtex
 @misc{ClariceGiovanniRomain2025,
-    title = {Numerical study of a convex programming approach to the Calder{\'o}n problem},
+    title = {On the non-convexity issue in the radial Calder{\'o}n problem},
     author = {Clarice, Giovanni, Romain},
     year = {2025},
     number = {arXiv:0000.00000},
