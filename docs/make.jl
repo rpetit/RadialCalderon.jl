@@ -41,7 +41,7 @@ pages = [
     "Home" => "index.md",
     "Tutorials" => [
         "Forward map" => joinpath("examples", "forward.md"),
-        "Nonlinear SDP" => joinpath("examples", "nonlinear_sdp.md"),
+        "Convex nonlinear SDP" => joinpath("examples", "nonlinear_sdp.md"),
         "Least squares" => joinpath("examples", "least_squares.md")
         ],
     "API reference" => "api.md"

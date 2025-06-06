@@ -1,7 +1,11 @@
-# # Reconstruction via root finding and least squares
+# # Reconstruction via nonlinear least squares
 
 #=
-In this tutorial, we show how to implement a root finding or least squares approach to solve the Calderón problem in the noiseless setting. To be more precise, we wish to solve the equation $\Lambda(\sigma)=\Lambda(\sigma^\dagger)$, where $\sigma^\dagger$ is an unknown conductivity. Since $\Lambda$ is nonlinear, iterative approaches could in principle suffer from the problem of local convergence (their output might heavily depend on their initialization). However, we will see that, in practice, these methods yield good results and seem to converge to a solution regardless of their initialization.
+In this tutorial, we show how to implement the least squares approach to solve the Calderón problem in the noiseless setting. To be more precise, we wish to minimize the functional 
+
+$f:\sigma\mapsto \frac{1}{2}\|\Lambda(\sigma)-\Lambda(\sigma^\dagger)\|_2^2$
+
+where $\sigma^\dagger$ is an unknown conductivity. Since $\Lambda$ is nonlinear, $f$ is non-convex and iterative minimization algorithms could in principle suffer from the problem of local convergence (their output might heavily depend on their initialization). However, we will see that, in practice, the main issue is rather the ill-posedness of the inverse problem, and that robust iterative algorithms almost always converge to a global minmizer regardless of their initialization.
 =#
 
 # ## Setting
@@ -21,10 +25,23 @@ b = 1.5
 σ_true = [0.8, 1.2, 1.0]  # unknown conductivity
 obs_true = Λ(σ_true);  # observations
 
-# ## Root finding
+# ## Using [NonlinearSolve.jl](https://github.com/SciML/NonlinearSolve.jl)
 
 #=
-We use the package [NonlinearSolve](https://github.com/SciML/NonlinearSolve.jl) to solve the equation with the Newton-Raphson method initialized with a random guess $\sigma_{\mathrm{init}}$. We notice that, in practice, the method converges to a solution regardless of the initialization.
+We use the package [NonlinearSolve.jl](https://github.com/SciML/NonlinearSolve.jl) to solve the equation $\Lambda(\sigma)=\Lambda(\sigma^\dagger)$ using a robust Newton-type algorithm initialized with a guess $\sigma_{\mathrm{init}}$. We notice that, in practice, the method converges to a solution regardless of its initialization.
+=#
+
+using Base.Iterators: product
+
+k = 5
+prod_it = product([range(a, b, k) for i=1:3]...)
+σ_init_tab = hcat(collect.(collect(prod_it))...)
+nσ_init = size(σ_init_tab, 2)
+
+@info "Number of initializations: $nσ_init"
+
+#=
+The set of initial guesses is a regular discretization of $[a,b]^n$ using $k^n$ points (here, we chose $k=5$).
 =#
 
 using NonlinearSolve
@@ -32,40 +49,20 @@ using NonlinearSolve
 residual(σ, p) = Λ(σ) .- obs_true
 max_linf_err = 0.0
 
-for i=1:30
-    σ_init = a .+ (b-a) .* rand(n)  # random initialization
+for i=1:nσ_init
+    σ_init = σ_init_tab[:, i]
     problem = NonlinearProblem(residual, σ_init)
-    res = NonlinearSolve.solve(problem, NewtonRaphson(), abstol=1e-12)
+    res = NonlinearSolve.solve(problem, RobustMultiNewton())
     σ_hat = res.u
     global max_linf_err = max(max_linf_err, maximum(abs.(σ_hat .- σ_true)))
 end
 
-max_linf_err
+@info "Maximum l-infinity error: $max_linf_err"
 
-# ## Least squares
-
-#=
-The same package can be used to solve the equation by minimizing the least squares functional 
-
-$\sigma\mapsto \frac{1}{2}\| \Lambda(\sigma) - \Lambda(\sigma^\dagger) \|_2^2$
-
-with an iterative optimization algorithm (here, we use the Levenberg-Marquardt algorithm).
-=#
-
-max_linf_err = 0.0
-
-for i=1:30
-    σ_init = a .+ (b-a) .* rand(n)  # random initialization
-    problem = NonlinearLeastSquaresProblem(residual, σ_init)
-    res = NonlinearSolve.solve(problem, LevenbergMarquardt(), abstol=1e-12)
-    σ_hat = res.u
-    global max_linf_err = max(max_linf_err, maximum(abs.(σ_hat .- σ_true)))
-end
-
-max_linf_err
+# ## Using [Optimization.jl](https://github.com/SciML/Optimization.jl)
 
 #=
-We can also do the same experiment by using the BFGS algorithm of the [Optim](https://github.com/JuliaNLSolvers/Optim.jl) package via the [Optimization](https://github.com/SciML/Optimization.jl) interface.
+We can also use the [Optimization.jl](https://github.com/SciML/Optimization.jl) package to call a large list of optimization algorithms to minimize $f$. Here, we use the BFGS algorithm from the [Optim.jl](https://github.com/JuliaNLSolvers/Optim.jl) package.
 =#
 
 using Optimization
@@ -76,12 +73,12 @@ optfun = OptimizationFunction(obj, Optimization.AutoForwardDiff())
 
 max_linf_err = 0.0
 
-for i=1:30
-    σ_init = a .+ (b-a) .* rand(n)  # random initialization
+for i=1:nσ_init
+    σ_init = σ_init_tab[:, i]
     problem = OptimizationProblem(optfun, σ_init)
-    res = solve(problem, Optim.BFGS(), g_tol=1e-13)
+    res = solve(problem, Optim.BFGS(), g_tol=1e-14)
     σ_hat = res.u
     global max_linf_err = max(max_linf_err, maximum(abs.(σ_hat .- σ_true)))
 end
 
-max_linf_err
+@info "Maximum l-infinity error: $max_linf_err"
