@@ -3,7 +3,7 @@ using Documenter
 using DocumenterCitations
 using Literate
 
-bib = CitationBibliography(joinpath(@__DIR__, "src", "refs.bib"); style=:authoryear)
+bib = CitationBibliography(joinpath(@__DIR__, "src", "ref.bib"); style=:authoryear)
 
 open(joinpath(joinpath(@__DIR__, "src"), "index.md"), "w") do io
     println(
@@ -32,6 +32,19 @@ for file in readdir(examples_jl_path)
     Literate.markdown(joinpath(examples_jl_path, file), examples_md_path)
 end
 
+experiments_jl_path = joinpath(dirname(@__DIR__), "experiments")
+experiments_md_path = joinpath(@__DIR__, "src", "experiments")
+
+for file in readdir(experiments_md_path)
+    if endswith(file, ".md")
+        rm(joinpath(experiments_md_path, file))
+    end
+end
+
+for file in readdir(experiments_jl_path)
+    Literate.markdown(joinpath(experiments_jl_path, file), experiments_md_path)
+end
+
 function literate_title(path)
     l = first(readlines(path))
     return l[3:end]
@@ -43,8 +56,12 @@ pages = [
         "Forward map" => joinpath("examples", "forward.md"),
         "Convex nonlinear SDP" => joinpath("examples", "nonlinear_sdp.md"),
         "Least squares" => joinpath("examples", "least_squares.md")
-        ],
-    "API reference" => "api.md"
+    ],
+    "Experiments" => [
+        "Ill-posedness" => joinpath("experiments", "ill_posedness.md")
+    ],
+    "API reference" => "api.md",
+    "References" => "ref.md"
 ]
 
 makedocs(;sitename="RadialCalderon.jl", pages=pages, plugins=[bib])

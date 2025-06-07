@@ -101,12 +101,3 @@ sol = solve(prob, optimizer)
 σ_hat = sol.u
 
 isapprox(σ_hat, σ_true, rtol=1e-6)
-
-# ## References
-
-#=
-```@bibliography
-Pages = ["nonlinear_sdp.md"]
-Canonical = false
-```
-=#

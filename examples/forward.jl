@@ -68,12 +68,3 @@ d(j) = (1/σ1-1)*(σ1+σ2)*r[1]^(2*j) + (1/σ1+1)*(σ1-σ2)*r[2]^(2*j)
 @info forward_map(forward, 1, σ) ≈ (c(1)+d(1)) / (c(1)-d(1))
 @info forward_map(forward, 2, σ) ≈ (c(2)+d(2)) / (2*(c(2)-d(2)))
 @info forward_map(forward, 3, σ) ≈ (c(3)+d(3)) / (3*(c(3)-d(3)))
-
-# ## References
-
-#=
-```@bibliography
-Pages = ["forward.md"]
-Canonical = false
-```
-=#

@@ -25,6 +25,9 @@ end
     for j=1:3
         @test forward_map(problem, j, σ0.*ones(problem.n)) == 1/(j*σ0)
     end
+
+    # test that exception is thrown for non-positive σ
+    @test_throws DomainError forward_map(problem, 1, [-1.0, σ1, σ2])
 end
 
 """

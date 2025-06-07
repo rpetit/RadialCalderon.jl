@@ -23,6 +23,10 @@ end
 Neumann-to-Dirichlet forward map
 """
 function forward_map(problem::ForwardProblem, j::Integer, σ::Vector)
+    if !(all(σ .> 0.0))
+        throw(DomainError(σ, "Conductivity must be positive."))
+    end
+
     C = 0.0
 
     for i=(problem.n-1):-1:1

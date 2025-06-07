@@ -48,37 +48,46 @@ using NonlinearSolve
 
 residual(σ, p) = Λ(σ) .- obs_true
 max_linf_err = 0.0
+max_linf_err_obs = 0.0
 
 for i=1:nσ_init
     σ_init = σ_init_tab[:, i]
     problem = NonlinearProblem(residual, σ_init)
-    res = NonlinearSolve.solve(problem, RobustMultiNewton())
+    res = NonlinearSolve.solve(problem, RobustMultiNewton(), abstol=1e-15)
     σ_hat = res.u
     global max_linf_err = max(max_linf_err, maximum(abs.(σ_hat .- σ_true)))
+    global max_linf_err_obs = max(max_linf_err_obs, maximum(abs.(Λ(σ_hat) .- obs_true)))
 end
 
-@info "Maximum l-infinity error: $max_linf_err"
+@info "Maximum l-infinity error (conductivity): $max_linf_err"
+@info "Maximum l-infinity error (observations): $max_linf_err_obs"
 
 # ## Using [Optimization.jl](https://github.com/SciML/Optimization.jl)
 
 #=
-We can also use the [Optimization.jl](https://github.com/SciML/Optimization.jl) package to call a large list of optimization algorithms to minimize $f$. Here, we use the BFGS algorithm from the [Optim.jl](https://github.com/JuliaNLSolvers/Optim.jl) package.
+We can also use the [Optimization.jl](https://github.com/SciML/Optimization.jl) package to call a large list of optimization algorithms to minimize $f$. Here, we use an interior point Newton algorithm from the [Optim.jl](https://github.com/JuliaNLSolvers/Optim.jl) package. We enforce the constraint $\sigma_i>10^{-5}$ to avoid domain errors.
 =#
 
+# TODO: fix problem with DomainError
 using Optimization
 using OptimizationOptimJL
+using DifferentiationInterface
+import ForwardDiff
 
 obj(σ, p) = 0.5 * sum((Λ(σ) .- obs_true).^2)
-optfun = OptimizationFunction(obj, Optimization.AutoForwardDiff())
+optfun = OptimizationFunction(obj, SecondOrder(AutoForwardDiff(), AutoForwardDiff()))
 
 max_linf_err = 0.0
+max_linf_err_obs = 0.0
 
 for i=1:nσ_init
     σ_init = σ_init_tab[:, i]
-    problem = OptimizationProblem(optfun, σ_init)
-    res = solve(problem, Optim.BFGS(), g_tol=1e-14)
+    problem = OptimizationProblem(optfun, σ_init, lb=1e-5.*ones(n), ub=Inf.*ones(n))
+    res = solve(problem, IPNewton(), g_tol=1e-17)
     σ_hat = res.u
     global max_linf_err = max(max_linf_err, maximum(abs.(σ_hat .- σ_true)))
+    global max_linf_err_obs = max(max_linf_err_obs, maximum(abs.(Λ(σ_hat) .- obs_true)))
 end
 
-@info "Maximum l-infinity error: $max_linf_err"
+@info "Maximum l-infinity error (conductivity): $max_linf_err"
+@info "Maximum l-infinity error (observations): $max_linf_err_obs"
