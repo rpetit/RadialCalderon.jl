@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Ill-posedness · RadialCalderon.jl</title><meta name="title" content="Ill-posedness · RadialCalderon.jl"/><meta property="og:title" content="Ill-posedness · RadialCalderon.jl"/><meta property="twitter:title" content="Ill-posedness · RadialCalderon.jl"/><meta name="description" content="Documentation for RadialCalderon.jl."/><meta property="og:description" content="Documentation for RadialCalderon.jl."/><meta property="twitter:description" content="Documentation for RadialCalderon.jl."/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">RadialCalderon.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><span class="tocitem">Tutorials</span><ul><li><a class="tocitem" href="../../examples/forward/">Forward map</a></li><li><a class="tocitem" href="../../examples/nonlinear_sdp/">Convex nonlinear SDP</a></li><li><a class="tocitem" href="../../examples/least_squares/">Least squares</a></li></ul></li><li><span class="tocitem">Experiments</span><ul><li class="is-active"><a class="tocitem" href>Ill-posedness</a><ul class="internal"><li><a class="tocitem" href="#Mean-error-for-each-pixel"><span>Mean error for each pixel</span></a></li></ul></li></ul></li><li><a class="tocitem" href="../../api/">API reference</a></li><li><a class="tocitem" href="../../ref/">References</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Experiments</a></li><li class="is-active"><a href>Ill-posedness</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Ill-posedness</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/rpetit/RadialCalderon.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/rpetit/RadialCalderon.jl/blob/main/experiments/ill_posedness.jl" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Ill-posedness-of-the-inverse-problem"><a class="docs-heading-anchor" href="#Ill-posedness-of-the-inverse-problem">Ill-posedness of the inverse problem</a><a id="Ill-posedness-of-the-inverse-problem-1"></a><a class="docs-heading-anchor-permalink" href="#Ill-posedness-of-the-inverse-problem" title="Permalink"></a></h1><pre><code class="language-julia hljs">using RadialCalderon
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Ill-posedness · RadialCalderon.jl</title><meta name="title" content="Ill-posedness · RadialCalderon.jl"/><meta property="og:title" content="Ill-posedness · RadialCalderon.jl"/><meta property="twitter:title" content="Ill-posedness · RadialCalderon.jl"/><meta name="description" content="Documentation for RadialCalderon.jl."/><meta property="og:description" content="Documentation for RadialCalderon.jl."/><meta property="twitter:description" content="Documentation for RadialCalderon.jl."/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">RadialCalderon.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><span class="tocitem">Tutorials</span><ul><li><a class="tocitem" href="../../examples/forward/">Forward map</a></li><li><a class="tocitem" href="../../examples/nonlinear_sdp/">Convex nonlinear SDP</a></li><li><a class="tocitem" href="../../examples/least_squares/">Least squares</a></li></ul></li><li><span class="tocitem">Experiments</span><ul><li class="is-active"><a class="tocitem" href>Ill-posedness</a><ul class="internal"><li><a class="tocitem" href="#Mean-error-for-each-annulus"><span>Mean error for each annulus</span></a></li><li><a class="tocitem" href="#Mean-error-as-a-function-of-n"><span>Mean error as a function of <span>$n$</span></span></a></li></ul></li></ul></li><li><a class="tocitem" href="../../api/">API reference</a></li><li><a class="tocitem" href="../../ref/">References</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Experiments</a></li><li class="is-active"><a href>Ill-posedness</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Ill-posedness</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/rpetit/RadialCalderon.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/rpetit/RadialCalderon.jl/blob/main/experiments/ill_posedness.jl" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Ill-posedness-of-the-inverse-problem"><a class="docs-heading-anchor" href="#Ill-posedness-of-the-inverse-problem">Ill-posedness of the inverse problem</a><a id="Ill-posedness-of-the-inverse-problem-1"></a><a class="docs-heading-anchor-permalink" href="#Ill-posedness-of-the-inverse-problem" title="Permalink"></a></h1><pre><code class="language-julia hljs">using RadialCalderon
 using NonlinearSolve
 using Random
 
-Random.seed!(1234);  # fix the random seed for reproducibility</code></pre><h2 id="Mean-error-for-each-pixel"><a class="docs-heading-anchor" href="#Mean-error-for-each-pixel">Mean error for each pixel</a><a id="Mean-error-for-each-pixel-1"></a><a class="docs-heading-anchor-permalink" href="#Mean-error-for-each-pixel" title="Permalink"></a></h2><pre><code class="language-julia hljs">n = 10
+Random.seed!(1234);  # fix the random seed for reproducibility</code></pre><h2 id="Mean-error-for-each-annulus"><a class="docs-heading-anchor" href="#Mean-error-for-each-annulus">Mean error for each annulus</a><a id="Mean-error-for-each-annulus-1"></a><a class="docs-heading-anchor-permalink" href="#Mean-error-for-each-annulus" title="Permalink"></a></h2><pre><code class="language-julia hljs">n = 10
 a = 0.5
 b = 1.5
 m = 10  # number of scalar measurements
@@ -36,10 +36,13 @@ for iσ_true=1:nσ_true
         problem = NonlinearProblem(f, σ_init)
 
         try
-            res = NonlinearSolve.solve(problem, RobustMultiNewton(), abstol=1e-15)
+            res = NonlinearSolve.solve(problem, TrustRegion(), abstol=1e-15)
             σ_hat .= res.u
             converged = maximum(abs.(Λ(σ_hat) .- obs_true)) &lt; 1e-15
-        catch DomainError
+        catch error
+            if !(error isa DomainError)
+                rethrow(error)  # rethrow any other error
+            end
         end
     end
 
@@ -47,8 +50,8 @@ for iσ_true=1:nσ_true
 end
 
 @info &quot;Number of instances with re-initialization: $(sum(ninit_tab .&gt; 1)) out of $(nσ_true)&quot;
-@info &quot;Maximum number of re-initializations: $(maximum(ninit_tab))&quot;</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">[ Info: Number of instances with re-initialization: 21 out of 100
-[ Info: Maximum number of re-initializations: 5</code></pre><p>Now, we display the mean error on the <span>$i$</span>-th pixel as a function of <span>$i$</span>. The error on the outermost pixel is several orders of magnitude smaller than the error on the innermost pixel.</p><pre><code class="language-julia hljs">using Statistics
+@info &quot;Maximum number of re-initializations: $(maximum(ninit_tab))&quot;</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">[ Info: Number of instances with re-initialization: 20 out of 100
+[ Info: Maximum number of re-initializations: 7</code></pre><p>Now, we display the mean error on the <span>$i$</span>-th annulus as a function of <span>$i$</span>. The error on the outermost annulus is several orders of magnitude smaller than the error on the innermost annulus.</p><pre><code class="language-julia hljs">using Statistics
 using Plots
 using LaTeXStrings
 
@@ -56,6 +59,73 @@ mean_err = vcat(mean(abs.(σ_true_tab .- σ_hat_tab), dims=2)...)
 
 plot(mean_err, lc=:red, lw=2, linestyle=:dash, primary=false)
 plot!(mean_err, yscale=:log10, ylim=(1e-14, 1e-7), seriestype=:scatter, ms=5,
-      markerstrokewidth=2, xticks=collect(1:10), xtickfontsize=14, ytickfontsize=14, primary=false, formatter=:latex, mc=:red, linestyle=:dot)
+      markerstrokewidth=2, xticks=collect(1:10), xtickfontsize=14, ytickfontsize=14,
+      primary=false, formatter=:latex, mc=:red, linestyle=:dot)
 xlabel!(L&quot;i&quot;, xguidefontsize=18)
-ylabel!(L&quot;\mathrm{mean}(|\hat{\sigma}_i-\sigma^\dagger_i|)&quot;, yguidefontsize=18)</code></pre><img src="9fe563b1.svg" alt="Example block output"/><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../examples/least_squares/">« Least squares</a><a class="docs-footer-nextpage" href="../../api/">API reference »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.12.0 on <span class="colophon-date" title="Saturday 7 June 2025 13:03">Saturday 7 June 2025</span>. Using Julia version 1.11.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+ylabel!(L&quot;\mathrm{mean}(|\hat{\sigma}_i-\sigma^\dagger_i|)&quot;, yguidefontsize=18)</code></pre><img src="4c9a28a2.svg" alt="Example block output"/><h2 id="Mean-error-as-a-function-of-n"><a class="docs-heading-anchor" href="#Mean-error-as-a-function-of-n">Mean error as a function of <span>$n$</span></a><a id="Mean-error-as-a-function-of-n-1"></a><a class="docs-heading-anchor-permalink" href="#Mean-error-as-a-function-of-n" title="Permalink"></a></h2><pre><code class="language-julia hljs">mean_err_tab = zeros(10)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">10-element Vector{Float64}:
+ 0.0
+ 0.0
+ 0.0
+ 0.0
+ 0.0
+ 0.0
+ 0.0
+ 0.0
+ 0.0
+ 0.0</code></pre><p>store result for n=10</p><pre><code class="language-julia hljs">mean_err_tab[10] = mean(maximum(abs.(σ_hat_tab .- σ_true_tab), dims=1))
+
+for n=1:9
+    m = n
+
+    σ_true_tab = a .+ (b-a) .* rand(n, nσ_true)
+    σ_hat_tab = zeros(n, nσ_true)
+
+    r = reverse([i/n for i=1:n-1])
+    forward = ForwardProblem(r)
+
+    Λ(σ) = [forward_map(forward, j, σ) for j=1:m]
+
+    for iσ_true=1:nσ_true
+        σ_true = σ_true_tab[:, iσ_true]
+        obs_true = Λ(σ_true)
+
+        converged = false
+        σ_hat = zeros(n)
+
+        while !converged
+            σ_init = a .+ (b-a) .* rand(n)
+
+            f(σ, p) = Λ(σ) .- obs_true
+            problem = NonlinearProblem(f, σ_init)
+
+            try
+                res = NonlinearSolve.solve(problem, TrustRegion(), abstol=1e-15)
+                σ_hat .= res.u
+                converged = maximum(abs.(Λ(σ_hat) .- obs_true)) &lt; 1e-15
+            catch error
+                if !(error isa DomainError)
+                    rethrow(error)  # rethrow any other error
+                end
+            end
+        end
+
+        σ_hat_tab[:, iσ_true] .= σ_hat
+    end
+
+    mean_err_tab[n] = mean(maximum(abs.(σ_hat_tab .- σ_true_tab), dims=1))
+end</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">┌ Warning: Assignment to `m` in soft scope is ambiguous because a global variable by the same name exists: `m` will be treated as a new local. Disambiguate by using `local m` to suppress this warning or `global m` to assign to the existing global variable.
+└ @ ill_posedness.md:98
+┌ Warning: Assignment to `σ_true_tab` in soft scope is ambiguous because a global variable by the same name exists: `σ_true_tab` will be treated as a new local. Disambiguate by using `local σ_true_tab` to suppress this warning or `global σ_true_tab` to assign to the existing global variable.
+└ @ ill_posedness.md:100
+┌ Warning: Assignment to `σ_hat_tab` in soft scope is ambiguous because a global variable by the same name exists: `σ_hat_tab` will be treated as a new local. Disambiguate by using `local σ_hat_tab` to suppress this warning or `global σ_hat_tab` to assign to the existing global variable.
+└ @ ill_posedness.md:101
+┌ Warning: Assignment to `r` in soft scope is ambiguous because a global variable by the same name exists: `r` will be treated as a new local. Disambiguate by using `local r` to suppress this warning or `global r` to assign to the existing global variable.
+└ @ ill_posedness.md:103
+┌ Warning: Assignment to `forward` in soft scope is ambiguous because a global variable by the same name exists: `forward` will be treated as a new local. Disambiguate by using `local forward` to suppress this warning or `global forward` to assign to the existing global variable.
+└ @ ill_posedness.md:104</code></pre><p>Now, we display the mean error as a function of <span>$n$</span>. The error significantly increases as n increases.</p><pre><code class="language-julia hljs">plot(1:10, mean_err_tab, lc=:red, lw=2, linestyle=:dash, primary=false)
+plot!(1:10, mean_err_tab, yscale=:log10, ylim=(1e-17, 1e-7), seriestype=:scatter, ms=5,
+      markerstrokewidth=2, xticks=collect(1:10), yticks=1 ./ (10) .^ reverse(collect(7:17)),
+      xtickfontsize=14, ytickfontsize=14, primary=false, formatter=:latex, mc=:red,
+      linestyle=:dot)
+xlabel!(L&quot;n&quot;, xguidefontsize=18)
+ylabel!(L&quot;\mathrm{mean}(\Vert\hat{\sigma}-\sigma^\dagger\Vert_{\infty})&quot;, yguidefontsize=18)</code></pre><img src="1715891b.svg" alt="Example block output"/><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../examples/least_squares/">« Least squares</a><a class="docs-footer-nextpage" href="../../api/">API reference »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.12.0 on <span class="colophon-date" title="Friday 13 June 2025 13:59">Friday 13 June 2025</span>. Using Julia version 1.11.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
