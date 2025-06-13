@@ -62,7 +62,7 @@ plot!(mean_err, yscale=:log10, ylim=(1e-14, 1e-7), seriestype=:scatter, ms=5,
       markerstrokewidth=2, xticks=collect(1:10), xtickfontsize=14, ytickfontsize=14,
       primary=false, formatter=:latex, mc=:red, linestyle=:dot)
 xlabel!(L&quot;i&quot;, xguidefontsize=18)
-ylabel!(L&quot;\mathrm{mean}(|\hat{\sigma}_i-\sigma^\dagger_i|)&quot;, yguidefontsize=18)</code></pre><img src="4c9a28a2.svg" alt="Example block output"/><h2 id="Mean-error-as-a-function-of-n"><a class="docs-heading-anchor" href="#Mean-error-as-a-function-of-n">Mean error as a function of <span>$n$</span></a><a id="Mean-error-as-a-function-of-n-1"></a><a class="docs-heading-anchor-permalink" href="#Mean-error-as-a-function-of-n" title="Permalink"></a></h2><pre><code class="language-julia hljs">mean_err_tab = zeros(10)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">10-element Vector{Float64}:
+ylabel!(L&quot;\mathrm{mean}(|\hat{\sigma}_i-\sigma^\dagger_i|)&quot;, yguidefontsize=18)</code></pre><img src="75435882.svg" alt="Example block output"/><h2 id="Mean-error-as-a-function-of-n"><a class="docs-heading-anchor" href="#Mean-error-as-a-function-of-n">Mean error as a function of <span>$n$</span></a><a id="Mean-error-as-a-function-of-n-1"></a><a class="docs-heading-anchor-permalink" href="#Mean-error-as-a-function-of-n" title="Permalink"></a></h2><pre><code class="language-julia hljs">mean_err_tab = zeros(10)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">10-element Vector{Float64}:
  0.0
  0.0
  0.0
@@ -75,18 +75,18 @@ ylabel!(L&quot;\mathrm{mean}(|\hat{\sigma}_i-\sigma^\dagger_i|)&quot;, yguidefon
  0.0</code></pre><p>store result for n=10</p><pre><code class="language-julia hljs">mean_err_tab[10] = mean(maximum(abs.(σ_hat_tab .- σ_true_tab), dims=1))
 
 for n=1:9
-    m = n
+    global m = n
 
-    σ_true_tab = a .+ (b-a) .* rand(n, nσ_true)
-    σ_hat_tab = zeros(n, nσ_true)
+    σ_true_tab_n = a .+ (b-a) .* rand(n, nσ_true)
+    σ_hat_tab_n = zeros(n, nσ_true)
 
-    r = reverse([i/n for i=1:n-1])
-    forward = ForwardProblem(r)
+    global r = reverse([i/n for i=1:n-1])
+    global forward = ForwardProblem(r)
 
     Λ(σ) = [forward_map(forward, j, σ) for j=1:m]
 
     for iσ_true=1:nσ_true
-        σ_true = σ_true_tab[:, iσ_true]
+        σ_true = σ_true_tab_n[:, iσ_true]
         obs_true = Λ(σ_true)
 
         converged = false
@@ -109,23 +109,14 @@ for n=1:9
             end
         end
 
-        σ_hat_tab[:, iσ_true] .= σ_hat
+        σ_hat_tab_n[:, iσ_true] .= σ_hat
     end
 
-    mean_err_tab[n] = mean(maximum(abs.(σ_hat_tab .- σ_true_tab), dims=1))
-end</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">┌ Warning: Assignment to `m` in soft scope is ambiguous because a global variable by the same name exists: `m` will be treated as a new local. Disambiguate by using `local m` to suppress this warning or `global m` to assign to the existing global variable.
-└ @ ill_posedness.md:98
-┌ Warning: Assignment to `σ_true_tab` in soft scope is ambiguous because a global variable by the same name exists: `σ_true_tab` will be treated as a new local. Disambiguate by using `local σ_true_tab` to suppress this warning or `global σ_true_tab` to assign to the existing global variable.
-└ @ ill_posedness.md:100
-┌ Warning: Assignment to `σ_hat_tab` in soft scope is ambiguous because a global variable by the same name exists: `σ_hat_tab` will be treated as a new local. Disambiguate by using `local σ_hat_tab` to suppress this warning or `global σ_hat_tab` to assign to the existing global variable.
-└ @ ill_posedness.md:101
-┌ Warning: Assignment to `r` in soft scope is ambiguous because a global variable by the same name exists: `r` will be treated as a new local. Disambiguate by using `local r` to suppress this warning or `global r` to assign to the existing global variable.
-└ @ ill_posedness.md:103
-┌ Warning: Assignment to `forward` in soft scope is ambiguous because a global variable by the same name exists: `forward` will be treated as a new local. Disambiguate by using `local forward` to suppress this warning or `global forward` to assign to the existing global variable.
-└ @ ill_posedness.md:104</code></pre><p>Now, we display the mean error as a function of <span>$n$</span>. The error significantly increases as n increases.</p><pre><code class="language-julia hljs">plot(1:10, mean_err_tab, lc=:red, lw=2, linestyle=:dash, primary=false)
+    mean_err_tab[n] = mean(maximum(abs.(σ_hat_tab_n .- σ_true_tab_n), dims=1))
+end</code></pre><p>Now, we display the mean error as a function of <span>$n$</span>. The error significantly increases as n increases.</p><pre><code class="language-julia hljs">plot(1:10, mean_err_tab, lc=:red, lw=2, linestyle=:dash, primary=false)
 plot!(1:10, mean_err_tab, yscale=:log10, ylim=(1e-17, 1e-7), seriestype=:scatter, ms=5,
       markerstrokewidth=2, xticks=collect(1:10), yticks=1 ./ (10) .^ reverse(collect(7:17)),
       xtickfontsize=14, ytickfontsize=14, primary=false, formatter=:latex, mc=:red,
       linestyle=:dot)
 xlabel!(L&quot;n&quot;, xguidefontsize=18)
-ylabel!(L&quot;\mathrm{mean}(\Vert\hat{\sigma}-\sigma^\dagger\Vert_{\infty})&quot;, yguidefontsize=18)</code></pre><img src="1715891b.svg" alt="Example block output"/><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../examples/least_squares/">« Least squares</a><a class="docs-footer-nextpage" href="../../api/">API reference »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.12.0 on <span class="colophon-date" title="Friday 13 June 2025 13:59">Friday 13 June 2025</span>. Using Julia version 1.11.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+ylabel!(L&quot;\mathrm{mean}(\Vert\hat{\sigma}-\sigma^\dagger\Vert_{\infty})&quot;, yguidefontsize=18)</code></pre><img src="dc760555.svg" alt="Example block output"/><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../examples/least_squares/">« Least squares</a><a class="docs-footer-nextpage" href="../../api/">API reference »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.12.0 on <span class="colophon-date" title="Friday 13 June 2025 14:07">Friday 13 June 2025</span>. Using Julia version 1.11.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
