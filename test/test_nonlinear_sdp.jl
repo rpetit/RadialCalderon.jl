@@ -44,3 +44,32 @@ end
 
     @test isapprox(σ_hat, σ_true, rtol=1e-6)
 end
+
+@testset "c estimation" begin
+    r = [0.5]
+    forward = ForwardProblem(r)
+
+    a = 0.5
+    b = 1.5
+    m = 3
+
+    k = 2
+    prod_it = product([range(a, b, k) for i=1:forward.n]...)
+    σ = hcat(collect.(collect(prod_it))...)
+    σ = σ[:, 1:end-1];  # remove b*ones(n)
+
+    m = 3
+    model = build_c_estimation_problem(σ, a, b, m, forward)
+    optimizer = optimizer_with_attributes(
+        Ipopt.Optimizer, 
+        "print_level" => 0, 
+        "sb" => "yes"
+    )
+    set_optimizer(model, optimizer)
+    optimize!(model)
+    c = value.(model[:c])
+        
+    @test is_solved_and_feasible(model)
+    @test c[1] ≈ 1.0
+    @test c[2] > 0.0
+end

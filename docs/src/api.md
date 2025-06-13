@@ -11,6 +11,12 @@ ForwardProblem
 ConvexCalderonProblem
 ```
 
+## Forward map
+
+```@docs
+forward_map
+```
+
 ## Resolution
 ```@docs
 build_c_estimation_problem

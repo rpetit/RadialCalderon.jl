@@ -68,7 +68,6 @@ end
 We can also use the [Optimization.jl](https://github.com/SciML/Optimization.jl) package to call a large list of optimization algorithms to minimize $f$. Here, we use an interior point Newton algorithm from the [Optim.jl](https://github.com/JuliaNLSolvers/Optim.jl) package. We enforce the constraint $\sigma_i>10^{-5}$ to avoid domain errors.
 =#
 
-# TODO: fix problem with DomainError
 using Optimization
 using OptimizationOptimJL
 using DifferentiationInterface
