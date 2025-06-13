@@ -20,6 +20,8 @@ struct ForwardProblem
 end
 
 """
+$(SIGNATURES)
+
 Neumann-to-Dirichlet forward map
 """
 function forward_map(problem::ForwardProblem, j::Integer, σ::Vector)

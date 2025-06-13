@@ -77,23 +77,22 @@ ylabel!(L"\mathrm{mean}(|\hat{\sigma}_i-\sigma^\dagger_i|)", yguidefontsize=18)
 # ## Mean error as a function of $n$
 
 mean_err_tab = zeros(10)
-
 # store result for n=10
-mean_err_tab[10] = mean(maximum(abs.(σ_hat_tab .- σ_true_tab), dims=1))
+mean_err_tab[10] = mean(maximum(abs.(σ_hat_tab .- σ_true_tab), dims=1)) 
 
 for n=1:9
-    m = n
+    global m = n
 
-    σ_true_tab = a .+ (b-a) .* rand(n, nσ_true)    
-    σ_hat_tab = zeros(n, nσ_true)
+    σ_true_tab_n = a .+ (b-a) .* rand(n, nσ_true)    
+    σ_hat_tab_n = zeros(n, nσ_true)
 
-    r = reverse([i/n for i=1:n-1])
-    forward = ForwardProblem(r)
+    global r = reverse([i/n for i=1:n-1])
+    global forward = ForwardProblem(r)
 
     Λ(σ) = [forward_map(forward, j, σ) for j=1:m]
 
     for iσ_true=1:nσ_true
-        σ_true = σ_true_tab[:, iσ_true]
+        σ_true = σ_true_tab_n[:, iσ_true]
         obs_true = Λ(σ_true)
 
         converged = false
@@ -116,10 +115,10 @@ for n=1:9
             end
         end
 
-        σ_hat_tab[:, iσ_true] .= σ_hat
+        σ_hat_tab_n[:, iσ_true] .= σ_hat
     end
 
-    mean_err_tab[n] = mean(maximum(abs.(σ_hat_tab .- σ_true_tab), dims=1))
+    mean_err_tab[n] = mean(maximum(abs.(σ_hat_tab_n .- σ_true_tab_n), dims=1))
 end
 
 #=
