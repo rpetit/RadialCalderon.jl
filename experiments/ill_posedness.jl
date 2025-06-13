@@ -77,7 +77,6 @@ ylabel!(L"\mathrm{mean}(|\hat{\sigma}_i-\sigma^\dagger_i|)", yguidefontsize=18)
 # ## Mean error as a function of $n$
 
 mean_err_tab = zeros(10)
-# store result for n=10
 mean_err_tab[10] = mean(maximum(abs.(σ_hat_tab .- σ_true_tab), dims=1)) 
 
 for n=1:9
