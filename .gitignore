@@ -29,6 +29,7 @@ test/Manifest.toml
 *.ipynb_checkpoints
 
 docs/src/examples/*.md
+docs/src/experiments/*.md
 
 .vscode/
 

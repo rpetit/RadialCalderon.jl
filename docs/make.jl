@@ -58,7 +58,8 @@ pages = [
         "Least squares" => joinpath("examples", "least_squares.md")
     ],
     "Experiments" => [
-        "Ill-posedness" => joinpath("experiments", "ill_posedness.md")
+        "Ill-posedness" => joinpath("experiments", "ill_posedness.md"),
+        "Least squares vs nonlinear SDP" => joinpath("experiments", "ls_sdp.md")
     ],
     "API reference" => "api.md",
     "References" => "ref.md"
