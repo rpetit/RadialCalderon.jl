@@ -58,11 +58,23 @@ using LaTeXStrings
 mean_err = vcat(mean(abs.(σ_true_tab .- σ_hat_tab), dims=2)...)
 
 plot(mean_err, lc=:red, lw=2, linestyle=:dash, primary=false)
-plot!(mean_err, yscale=:log10, ylim=(1e-14, 1e-7), seriestype=:scatter, ms=5,
-      markerstrokewidth=2, xticks=collect(1:10), xtickfontsize=14, ytickfontsize=14,
-      primary=false, formatter=:latex, mc=:red, linestyle=:dot)
+plot!(
+    mean_err,
+    yscale=:log10,
+    ylim=(1e-14, 1e-7),
+    seriestype=:scatter,
+    ms=5,
+    markerstrokewidth=2,
+    xticks=collect(1:10),
+    xtickfontsize=14,
+    ytickfontsize=14,
+    primary=false,
+    formatter=:latex,
+    mc=:red,
+    linestyle=:dot
+)
 xlabel!(L&quot;i&quot;, xguidefontsize=18)
-ylabel!(L&quot;\mathrm{mean}(|\hat{\sigma}_i-\sigma^\dagger_i|)&quot;, yguidefontsize=18)</code></pre><img src="1412df91.svg" alt="Example block output"/><h2 id="Mean-error-as-a-function-of-n"><a class="docs-heading-anchor" href="#Mean-error-as-a-function-of-n">Mean error as a function of <span>$n$</span></a><a id="Mean-error-as-a-function-of-n-1"></a><a class="docs-heading-anchor-permalink" href="#Mean-error-as-a-function-of-n" title="Permalink"></a></h2><pre><code class="language-julia hljs">mean_err_tab = zeros(10)
+ylabel!(L&quot;\mathrm{mean}(|\hat{\sigma}_i-\sigma^\dagger_i|)&quot;, yguidefontsize=18)</code></pre><img src="cce2bc7c.svg" alt="Example block output"/><h2 id="Mean-error-as-a-function-of-n"><a class="docs-heading-anchor" href="#Mean-error-as-a-function-of-n">Mean error as a function of <span>$n$</span></a><a id="Mean-error-as-a-function-of-n-1"></a><a class="docs-heading-anchor-permalink" href="#Mean-error-as-a-function-of-n" title="Permalink"></a></h2><pre><code class="language-julia hljs">mean_err_tab = zeros(10)
 mean_err_tab[10] = mean(maximum(abs.(σ_hat_tab .- σ_true_tab), dims=1))
 
 for n=1:9
@@ -105,9 +117,22 @@ for n=1:9
 
     mean_err_tab[n] = mean(maximum(abs.(σ_hat_tab_n .- σ_true_tab_n), dims=1))
 end</code></pre><p>Now, we display the mean error as a function of <span>$n$</span>. The error significantly increases as n increases.</p><pre><code class="language-julia hljs">plot(1:10, mean_err_tab, lc=:red, lw=2, linestyle=:dash, primary=false)
-plot!(1:10, mean_err_tab, yscale=:log10, ylim=(1e-17, 1e-7), seriestype=:scatter, ms=5,
-      markerstrokewidth=2, xticks=collect(1:10), yticks=1 ./ (10) .^ reverse(collect(7:17)),
-      xtickfontsize=14, ytickfontsize=14, primary=false, formatter=:latex, mc=:red,
-      linestyle=:dot)
+plot!(
+    1:10,
+    mean_err_tab,
+    yscale=:log10,
+    ylim=(1e-17, 1e-7),
+    seriestype=:scatter,
+    ms=5,
+    markerstrokewidth=2,
+    xticks=collect(1:10),
+    yticks=1 ./ (10) .^ reverse(collect(7:17)),
+    xtickfontsize=14,
+    ytickfontsize=14,
+    primary=false,
+    formatter=:latex,
+    mc=:red,
+    linestyle=:dot
+)
 xlabel!(L&quot;n&quot;, xguidefontsize=18)
-ylabel!(L&quot;\mathrm{mean}(\Vert\hat{\sigma}-\sigma^\dagger\Vert_{\infty})&quot;, yguidefontsize=18)</code></pre><img src="811cf3ac.svg" alt="Example block output"/><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../examples/least_squares/">« Least squares</a><a class="docs-footer-nextpage" href="../ls_sdp/">Least squares vs nonlinear SDP »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.12.0 on <span class="colophon-date" title="Saturday 14 June 2025 10:16">Saturday 14 June 2025</span>. Using Julia version 1.11.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+ylabel!(L&quot;\mathrm{mean}(\Vert\hat{\sigma}-\sigma^\dagger\Vert_{\infty})&quot;, yguidefontsize=18)</code></pre><img src="09d78147.svg" alt="Example block output"/><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../examples/least_squares/">« Least squares</a><a class="docs-footer-nextpage" href="../ls_sdp/">Least squares vs nonlinear SDP »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.13.0 on <span class="colophon-date" title="Tuesday 8 July 2025 09:06">Tuesday 8 July 2025</span>. Using Julia version 1.11.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
