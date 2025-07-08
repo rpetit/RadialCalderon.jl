@@ -58,7 +58,8 @@ end
 @info "Maximum number of re-initializations: $(maximum(ninit_tab))"
 
 #=
-Now, we display the mean error on the $i$-th annulus as a function of $i$. The error on the outermost annulus is several orders of magnitude smaller than the error on the innermost annulus.
+Now, we display the mean error on the $i$-th annulus as a function of $i$. The error on the 
+outermost annulus is several orders of magnitude smaller than the error on the innermost annulus.
 =#
 
 using Statistics
@@ -68,9 +69,21 @@ using LaTeXStrings
 mean_err = vcat(mean(abs.(σ_true_tab .- σ_hat_tab), dims=2)...)
 
 plot(mean_err, lc=:red, lw=2, linestyle=:dash, primary=false)
-plot!(mean_err, yscale=:log10, ylim=(1e-14, 1e-7), seriestype=:scatter, ms=5,
-      markerstrokewidth=2, xticks=collect(1:10), xtickfontsize=14, ytickfontsize=14,
-      primary=false, formatter=:latex, mc=:red, linestyle=:dot)
+plot!(
+    mean_err, 
+    yscale=:log10, 
+    ylim=(1e-14, 1e-7), 
+    seriestype=:scatter, 
+    ms=5,
+    markerstrokewidth=2, 
+    xticks=collect(1:10), 
+    xtickfontsize=14, 
+    ytickfontsize=14,
+    primary=false, 
+    formatter=:latex, 
+    mc=:red, 
+    linestyle=:dot
+)
 xlabel!(L"i", xguidefontsize=18)
 ylabel!(L"\mathrm{mean}(|\hat{\sigma}_i-\sigma^\dagger_i|)", yguidefontsize=18)
 
@@ -125,9 +138,22 @@ Now, we display the mean error as a function of $n$. The error significantly inc
 =#
 
 plot(1:10, mean_err_tab, lc=:red, lw=2, linestyle=:dash, primary=false)
-plot!(1:10, mean_err_tab, yscale=:log10, ylim=(1e-17, 1e-7), seriestype=:scatter, ms=5,
-      markerstrokewidth=2, xticks=collect(1:10), yticks=1 ./ (10) .^ reverse(collect(7:17)),
-      xtickfontsize=14, ytickfontsize=14, primary=false, formatter=:latex, mc=:red,
-      linestyle=:dot)
+plot!(
+    1:10,
+    mean_err_tab, 
+    yscale=:log10, 
+    ylim=(1e-17, 1e-7), 
+    seriestype=:scatter, 
+    ms=5,
+    markerstrokewidth=2, 
+    xticks=collect(1:10), 
+    yticks=1 ./ (10) .^ reverse(collect(7:17)),
+    xtickfontsize=14, 
+    ytickfontsize=14, 
+    primary=false, 
+    formatter=:latex, 
+    mc=:red,
+    linestyle=:dot
+)
 xlabel!(L"n", xguidefontsize=18)
 ylabel!(L"\mathrm{mean}(\Vert\hat{\sigma}-\sigma^\dagger\Vert_{\infty})", yguidefontsize=18)

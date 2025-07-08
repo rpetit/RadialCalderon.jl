@@ -46,7 +46,7 @@ optimizer = optimizer_with_attributes(
     Ipopt.Optimizer, 
     "print_level" => 0, 
     "sb" => "yes",
-    "tol" => 1e-15,
+    "tol" => 1e-13,
     "constr_viol_tol" => 1e-15
 )
 set_optimizer(model, optimizer)

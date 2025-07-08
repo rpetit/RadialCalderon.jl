@@ -34,3 +34,5 @@ docs/src/experiments/*.md
 .vscode/
 
 docs/make_local.jl
+
+experiments_private

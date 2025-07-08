@@ -20,15 +20,17 @@ Tutorials and examples are available in the [documentation](https://rpetit.githu
 If you use this package in your research, please cite the following preprint.
 
 ```bibtex
-@misc{ClariceGiovanniRomain2025,
-    title = {On the non-convexity issue in the radial Calder{\'o}n problem},
-    author = {Clarice, Giovanni, Romain},
-    year = {2025},
-    number = {arXiv:0000.00000},
-    eprint = {0000.00000},
-    primaryclass = {math},
-    publisher = {arXiv}
+@misc{alberti2025nonconvexityissueradialcalderon,
+      title={On the non-convexity issue in the radial Calder\'on problem}, 
+      author={Giovanni S. Alberti and Romain Petit and Clarice Poon},
+      year={2025},
+      eprint={2507.03379},
+      archivePrefix={arXiv},
+      primaryClass={math.NA},
+      url={https://arxiv.org/abs/2507.03379}, 
 }
 ```
+
+
 
 
