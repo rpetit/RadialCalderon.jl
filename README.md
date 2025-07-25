@@ -21,13 +21,13 @@ If you use this package in your research, please cite the following preprint.
 
 ```bibtex
 @misc{alberti2025nonconvexityissueradialcalderon,
-      title={On the non-convexity issue in the radial Calder\'on problem}, 
-      author={Giovanni S. Alberti and Romain Petit and Clarice Poon},
-      year={2025},
-      eprint={2507.03379},
-      archivePrefix={arXiv},
-      primaryClass={math.NA},
-      url={https://arxiv.org/abs/2507.03379}, 
+    title={On the non-convexity issue in the radial Calder\'on problem}, 
+    author={Giovanni S. Alberti and Romain Petit and Clarice Poon},
+    year={2025},
+    eprint={2507.03379},
+    archivePrefix={arXiv},
+    primaryClass={math.NA},
+    url={https://arxiv.org/abs/2507.03379}, 
 }
 ```
 
