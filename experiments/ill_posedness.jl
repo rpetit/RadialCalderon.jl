@@ -13,6 +13,7 @@ a = 0.5
 b = 1.5
 m = 10  # number of scalar measurements
 nσ_true = 100  # number of unknown conductitivities
+ϵ = 1e-15  # tolerance
 
 σ_true_tab = a .+ (b-a) .* rand(n, nσ_true)
 
@@ -40,10 +41,10 @@ for iσ_true=1:nσ_true
         f(σ, p) = Λ(σ) .- obs_true
         problem = NonlinearProblem(f, σ_init)
 
-        try 
-            res = NonlinearSolve.solve(problem, TrustRegion(), abstol=1e-15)
+        try
+            res = NonlinearSolve.solve(problem, TrustRegion(), abstol=ϵ)
             σ_hat .= res.u
-            converged = maximum(abs.(Λ(σ_hat) .- obs_true)) < 1e-15
+            converged = maximum(abs.(Λ(σ_hat) .- obs_true)) < ϵ
         catch error
             if !(error isa DomainError)
                 rethrow(error)  # rethrow any other error
@@ -53,9 +54,6 @@ for iσ_true=1:nσ_true
 
     σ_hat_tab[:, iσ_true] .= σ_hat
 end
-
-@info "Number of instances with re-initialization: $(sum(ninit_tab .> 1)) out of $(nσ_true)"
-@info "Maximum number of re-initializations: $(maximum(ninit_tab))"
 
 #=
 Now, we display the mean error on the $i$-th annulus as a function of $i$. The error on the 
@@ -129,7 +127,7 @@ for n=1:9
 
         σ_hat_tab_n[:, iσ_true] .= σ_hat
     end
-
+ 
     mean_err_tab[n] = mean(maximum(abs.(σ_hat_tab_n .- σ_true_tab_n), dims=1))
 end
 
@@ -140,12 +138,12 @@ Now, we display the mean error as a function of $n$. The error significantly inc
 plot(1:10, mean_err_tab, lc=:red, lw=2, linestyle=:dash, primary=false)
 plot!(
     1:10,
-    mean_err_tab, 
+    mean_err_tab,
     yscale=:log10, 
     ylim=(1e-17, 1e-7), 
     seriestype=:scatter, 
     ms=5,
-    markerstrokewidth=2, 
+    markerstrokewidth=2,
     xticks=collect(1:10), 
     yticks=1 ./ (10) .^ reverse(collect(7:17)),
     xtickfontsize=14, 

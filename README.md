@@ -20,7 +20,7 @@ Tutorials and examples are available in the [documentation](https://rpetit.githu
 If you use this package in your research, please cite the following preprint.
 
 ```bibtex
-@misc{alberti2025nonconvexityissueradialcalderon,
+@misc{alberti2025nonconvexitycalderon,
     title={On the non-convexity issue in the radial Calder\'on problem}, 
     author={Giovanni S. Alberti and Romain Petit and Clarice Poon},
     year={2025},
