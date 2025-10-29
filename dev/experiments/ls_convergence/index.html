@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Convergence of least squares solvers · RadialCalderon.jl</title><meta name="title" content="Convergence of least squares solvers · RadialCalderon.jl"/><meta property="og:title" content="Convergence of least squares solvers · RadialCalderon.jl"/><meta property="twitter:title" content="Convergence of least squares solvers · RadialCalderon.jl"/><meta name="description" content="Documentation for RadialCalderon.jl."/><meta property="og:description" content="Documentation for RadialCalderon.jl."/><meta property="twitter:description" content="Documentation for RadialCalderon.jl."/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">RadialCalderon.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><span class="tocitem">Tutorials</span><ul><li><a class="tocitem" href="../../examples/forward/">Forward map</a></li><li><a class="tocitem" href="../../examples/nonlinear_sdp/">Convex nonlinear SDP</a></li><li><a class="tocitem" href="../../examples/least_squares/">Least squares</a></li></ul></li><li><span class="tocitem">Experiments</span><ul><li><a class="tocitem" href="../ill_posedness/">Ill-posedness</a></li><li><a class="tocitem" href="../ls_sdp/">Least squares vs nonlinear SDP</a></li><li class="is-active"><a class="tocitem" href>Convergence of least squares solvers</a><ul class="internal"><li><a class="tocitem" href="#Setting"><span>Setting</span></a></li><li><a class="tocitem" href="#Check-convergence-for-n\\leq-9"><span>Check convergence for <span>$n\leq 9$</span></span></a></li><li><a class="tocitem" href="#Investigate-when-the-number-of-iterations-is-large"><span>Investigate when the number of iterations is large</span></a></li><li><a class="tocitem" href="#Check-convergence-for-n10"><span>Check convergence for <span>$n=10$</span></span></a></li></ul></li></ul></li><li><a class="tocitem" href="../../api/">API reference</a></li><li><a class="tocitem" href="../../ref/">References</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Experiments</a></li><li class="is-active"><a href>Convergence of least squares solvers</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Convergence of least squares solvers</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/rpetit/RadialCalderon.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/rpetit/RadialCalderon.jl/blob/main/experiments/ls_convergence.jl" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Convergence-of-least-squares-solvers"><a class="docs-heading-anchor" href="#Convergence-of-least-squares-solvers">Convergence of least squares solvers</a><a id="Convergence-of-least-squares-solvers-1"></a><a class="docs-heading-anchor-permalink" href="#Convergence-of-least-squares-solvers" title="Permalink"></a></h1><p>In this experiment, we wish to investigate when least squares solvers fail to converge. We found that the best choice of solver is Powell&#39;s dog leg method, which is a trust-region method combining the steepest and the Gauss-Newton descent directions. We found that this solver always converges for <span>$n\leq 9$</span>, but sometimes runs for a very large number of iterations. For <span>$n=10$</span>, it fails to converge on very few instances (less than 1 in 100), and we conjecture that allowing for more iterations would lead to convergence. In any case, we never found an instance where the solver converges to a point which is not an approximate global minimizer of the least squares objective.</p><h2 id="Setting"><a class="docs-heading-anchor" href="#Setting">Setting</a><a id="Setting-1"></a><a class="docs-heading-anchor-permalink" href="#Setting" title="Permalink"></a></h2><pre><code class="language-julia hljs">using RadialCalderon
+using NonlinearSolve
+using Random
+using Plots
+using LaTeXStrings
+
+using DifferentiationInterface
+import ForwardDiff
+
+backend = AutoForwardDiff()  # autodiff backen
+
+Random.seed!(1234)  # fix the random seed for reproducibility
+
+a = 0.5  # conductivity lower bound
+b = 1.5  # conductivity upper bound
+
+nσ_true = 100  # number of true conductivities
+offset = 1e-5  # parameter for the smoothed absolute value
+solver = TrustRegion();  # trust-region dogleg solver</code></pre><h2 id="Check-convergence-for-n\\leq-9"><a class="docs-heading-anchor" href="#Check-convergence-for-n\\leq-9">Check convergence for <span>$n\leq 9$</span></a><a id="Check-convergence-for-n\\leq-9-1"></a><a class="docs-heading-anchor-permalink" href="#Check-convergence-for-n\\leq-9" title="Permalink"></a></h2><pre><code class="language-julia hljs">σ_true_tab_9 = zeros(9, nσ_true)  # save results for $n=9$
+σ_init_tab_9 = zeros(9, nσ_true)
+iter_tab_9 = zeros(Int, nσ_true)
+
+for n=1:9
+    @info &quot;n=$n&quot;
+    m = n
+
+    σ_true_tab = a .+ (b-a) .* rand(n, nσ_true)
+    σ_init_tab = a .+ (b-a) .* rand(n, nσ_true)
+
+    σ_hat_tab = zeros(n, nσ_true)
+    iter_tab = zeros(Int, nσ_true)
+    err_tab = zeros(nσ_true)
+    err_tab_measurements = zeros(nσ_true)
+
+    r = reverse([i/n for i=1:n-1])
+    forward = ForwardProblem(r)
+    Λ(σ) = [forward_map(forward, j, σ) for j=1:m]
+
+    for iσ_true=1:nσ_true
+        σ_true = σ_true_tab[:, iσ_true]
+        σ_init = σ_init_tab[:, iσ_true]
+        obs_true = Λ(σ_true)
+
+        f(σ, p) = Λ(sqrt.(σ.^2 .+ offset)) .- obs_true  # re-parameterization to avoid non-positive conductivities
+
+        problem = NonlinearProblem(f, σ_init)
+        res = NonlinearSolve.solve(problem, solver, abstol=1e-15, maxiters=200000)
+        σ_hat = sqrt.((res.u).^2 .+ offset)
+
+        σ_hat_tab[:, iσ_true] .= σ_hat
+        iter_tab[iσ_true] = res.stats.nsteps
+
+        err = abs.(σ_hat .- σ_true) ./ abs.(σ_true)
+        err_tab[iσ_true] = maximum(err)
+        err_tab_measurements[iσ_true] = maximum(abs.(Λ(σ_hat) .- obs_true))
+    end
+
+    @info &quot;maximum relative error (conductivity): $(maximum(err_tab))&quot;
+    @info &quot;maximum error (measurements): $(maximum(err_tab_measurements))&quot;
+
+    if n == 9
+        σ_true_tab_9 .= σ_true_tab
+        σ_init_tab_9 .= σ_init_tab
+        iter_tab_9 .= iter_tab
+    end
+end</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">[ Info: n=1
+[ Info: maximum relative error (conductivity): 8.743475927699282e-16
+[ Info: maximum error (measurements): 7.771561172376096e-16
+[ Info: n=2
+[ Info: maximum relative error (conductivity): 4.761075153129442e-15
+[ Info: maximum error (measurements): 7.771561172376096e-16
+[ Info: n=3
+[ Info: maximum relative error (conductivity): 1.7381070284125765e-14
+[ Info: maximum error (measurements): 8.881784197001252e-16
+[ Info: n=4
+[ Info: maximum relative error (conductivity): 1.018532805125185e-13
+[ Info: maximum error (measurements): 4.440892098500626e-16
+[ Info: n=5
+[ Info: maximum relative error (conductivity): 8.028834492375188e-13
+[ Info: maximum error (measurements): 9.992007221626409e-16
+[ Info: n=6
+[ Info: maximum relative error (conductivity): 9.422671230968982e-12
+[ Info: maximum error (measurements): 8.881784197001252e-16
+[ Info: n=7
+[ Info: maximum relative error (conductivity): 8.481307807621812e-11
+[ Info: maximum error (measurements): 9.992007221626409e-16
+[ Info: n=8
+[ Info: maximum relative error (conductivity): 5.679674447343847e-10
+[ Info: maximum error (measurements): 8.881784197001252e-16
+[ Info: n=9
+[ Info: maximum relative error (conductivity): 8.89181261479893e-9
+[ Info: maximum error (measurements): 9.992007221626409e-16</code></pre><h2 id="Investigate-when-the-number-of-iterations-is-large"><a class="docs-heading-anchor" href="#Investigate-when-the-number-of-iterations-is-large">Investigate when the number of iterations is large</a><a id="Investigate-when-the-number-of-iterations-is-large-1"></a><a class="docs-heading-anchor-permalink" href="#Investigate-when-the-number-of-iterations-is-large" title="Permalink"></a></h2><pre><code class="language-julia hljs">n = 9
+m = n
+
+r = reverse([i/n for i=1:n-1])
+forward = ForwardProblem(r)
+Λ(σ) = [forward_map(forward, j, σ) for j=1:m]
+
+iσ_true = argmax(iter_tab_9)
+σ_true = σ_true_tab_9[:, iσ_true]
+σ_init = σ_init_tab_9[:, iσ_true]
+obs_true = Λ(σ_true)
+
+f(σ, p) = Λ(sqrt.(σ.^2 .+ offset)) .- obs_true
+
+problem = NonlinearProblem(f, σ_init)
+res = NonlinearSolve.solve(
+    problem,
+    solver,
+    abstol=1e-15,
+    maxiters=200000,
+    store_trace=Val(true),
+    trace_level=TraceAll()
+)
+
+σ_hat = sqrt.((res.u).^2 .+ offset)
+
+obj(σ) = 0.5 * sum((Λ(σ) .- obs_true).^2)
+grad_obj(σ) = gradient(obj, backend, σ)
+
+length_trace = length(res.trace.history)
+σ_tab = [sqrt.((res.trace.history[i].u).^2 .+ offset) for i=1:length_trace]
+residual_tab = [maximum(abs.(Λ(σ_tab[i]) .- obs_true)) for i=1:length_trace]
+dist_tab = [maximum(abs.(σ_tab[i] .- σ_true)) for i=1:length_trace]
+grad_norm_tab = [maximum(abs.(grad_obj(σ_tab[i]))) for i=1:length_trace]
+
+plot(
+    residual_tab,
+    xscale=:log10,
+    yscale=:log10,
+    xlabel=L&quot;\mathrm{iteration}&quot;,
+    label=&quot;residual norm&quot;,
+    c=:blue,
+    yticks = 10 .^ (-16.0:2.0:10.0),
+    xticks = 10 .^ (0:1:6),
+    legend=:bottomleft,
+    lw=2,
+    xtickfontsize=15,
+    ytickfontsize=15,
+    legendfontsize=12,
+    labelfontsize=16,
+    formatter=:latex
+)
+
+plot!(
+    dist_tab,
+    label=&quot;distance to solution&quot;,
+    c=:red,
+    lw=2
+)
+
+plot!(
+    grad_norm_tab,
+    label=&quot;gradient norm&quot;,
+    c=:green,
+    lw=2
+)</code></pre><img src="8dc11240.svg" alt="Example block output"/><p>We see that, for the instance with the largest number of iterations, the iterates go very far away from the true conductivity while keeping a low value for the residual. After a very large number of iterations, the iterates finally converge to the true conductivity. This is likely due to the ill-posedness of the problem, which allows having very different conductivities while having similar measurements.</p><h2 id="Check-convergence-for-n10"><a class="docs-heading-anchor" href="#Check-convergence-for-n10">Check convergence for <span>$n=10$</span></a><a id="Check-convergence-for-n10-1"></a><a class="docs-heading-anchor-permalink" href="#Check-convergence-for-n10" title="Permalink"></a></h2><pre><code class="language-julia hljs">n = 10
+m = n
+
+σ_true_tab = a .+ (b-a) .* rand(n, nσ_true)
+σ_init_tab = a .+ (b-a) .* rand(n, nσ_true)
+
+σ_hat_tab = zeros(n, nσ_true)
+iter_tab = zeros(Int, nσ_true)
+err_tab = zeros(nσ_true)
+err_tab_measurements = zeros(nσ_true)
+
+r = reverse([i/n for i=1:n-1])
+forward = ForwardProblem(r)
+Λ(σ) = [forward_map(forward, j, σ) for j=1:m]
+
+maxiters = 500000
+
+for iσ_true=1:nσ_true
+    local σ_true = σ_true_tab[:, iσ_true]
+    local σ_init = σ_init_tab[:, iσ_true]
+    local obs_true = Λ(σ_true)
+
+    f(σ, p) = Λ(sqrt.(σ.^2 .+ offset)) .- obs_true
+
+    local problem = NonlinearProblem(f, σ_init)
+    local res = NonlinearSolve.solve(problem, solver, abstol=1e-15, maxiters=maxiters)
+    local σ_hat = sqrt.((res.u).^2 .+ offset)
+
+    σ_hat_tab[:, iσ_true] .= σ_hat
+    iter_tab[iσ_true] = res.stats.nsteps
+
+    err = abs.(σ_hat .- σ_true) ./ abs.(σ_true)
+    err_tab[iσ_true] = maximum(err)
+    err_tab_measurements[iσ_true] = maximum(abs.(Λ(σ_hat) .- obs_true))
+end
+
+@info &quot;number of convergence failures: $(sum(err_tab_measurements .&gt; 1e-15)) out of $(nσ_true)&quot;
+
+for iσ_true=1:nσ_true
+    if err_tab_measurements[iσ_true] &gt; 1e-15
+        @info &quot;instance $iσ_true: $(iter_tab[iσ_true]) iterations (max $maxiters)&quot;
+    end
+end</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">[ Info: number of convergence failures: 2 out of 100
+[ Info: instance 29: 500000 iterations (max 500000)
+[ Info: instance 65: 500000 iterations (max 500000)</code></pre><p>The only instances for which the solver fails to converge have reached the maximum number of iterations.</p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../ls_sdp/">« Least squares vs nonlinear SDP</a><a class="docs-footer-nextpage" href="../../api/">API reference »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.15.0 on <span class="colophon-date" title="Wednesday 29 October 2025 13:13">Wednesday 29 October 2025</span>. Using Julia version 1.12.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
