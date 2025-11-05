@@ -5,7 +5,7 @@ In this experiment, we wish to investigate when least squares solvers fail to co
 found that the best choice of solver is Powell's dog leg method, which is a trust-region 
 method combining the steepest and the Gauss-Newton descent directions. We found that this solver 
 always converges for $n\leq 9$, but sometimes runs for a very large number of iterations. For 
-$n=10$, it fails to converge on very few instances (less than 1 in 100), and we conjecture 
+$n=10$, it fails to converge on very few instances (of the order of 1 in 100), and we conjecture 
 that allowing for more iterations would lead to convergence. In any case, we never found an 
 instance where the solver converges to a point which is not an approximate global 
 minimizer of the least squares objective.
@@ -84,7 +84,7 @@ for n=1:9
     end
 end
 
-# ## Investigate when the number of iterations is large
+# ## Large number of iterations
 
 n = 9
 m = n
@@ -125,8 +125,8 @@ plot(
     residual_tab, 
     xscale=:log10, 
     yscale=:log10, 
-    xlabel=L"\mathrm{iteration}", 
-    label="residual norm",
+    xlabel=L"\textrm{iteration}", 
+    label=L"\textrm{residual~norm}",
     c=:blue, 
     yticks = 10 .^ (-16.0:2.0:10.0), 
     xticks = 10 .^ (0:1:6), 
@@ -134,27 +134,27 @@ plot(
     lw=2,
     xtickfontsize=15,
     ytickfontsize=15,
-    legendfontsize=12,
+    legendfontsize=16,
     labelfontsize=16,
     formatter=:latex
 )
 
 plot!(
     dist_tab,
-    label="distance to solution",
+    label=L"\textrm{distance~to~solution}",
     c=:red, 
     lw=2
 )
 
 plot!(
     grad_norm_tab,
-    label="gradient norm",
+    label=L"\textrm{gradient~norm}",
     c=:green, 
     lw=2
 )
 
 #=
-We see that, for the instance with the largest number of iterations, the iterates go very 
+We see that, for the instance with the largest number of iterations ($n=9$), the iterates go very 
 far away from the true conductivity while keeping a low value for the residual. After a very 
 large number of iterations, the iterates finally converge to the true conductivity. This is 
 likely due to the ill-posedness of the problem, which allows having very different 
