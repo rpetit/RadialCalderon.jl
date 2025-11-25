@@ -17,17 +17,19 @@ Tutorials and examples are available in the [documentation](https://rpetit.githu
 
 ## Citation
 
-If you use this package in your research, please cite the following preprint.
+If you use this package in your research, please cite the following [preprint](https://arxiv.org/abs/2507.03379).
 
 ```bibtex
-@misc{alberti2025nonconvexitycalderon,
-    title={On the non-convexity issue in the radial Calder\'on problem}, 
-    author={Giovanni S. Alberti and Romain Petit and Clarice Poon},
-    year={2025},
-    eprint={2507.03379},
-    archivePrefix={arXiv},
-    primaryClass={math.NA},
-    url={https://arxiv.org/abs/2507.03379}, 
+@misc{albertiNonconvexityIssueRadial2025,
+  title = {On the Non-Convexity Issue in the Radial Calder\'on Problem},
+  author = {Alberti, Giovanni S. and Petit, Romain and Poon, Clarice and Waldspurger, Ir\`ene},
+  year = 2025,
+  number = {arXiv:2507.03379},
+  eprint = {2507.03379},
+  primaryclass = {math},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2507.03379},
+  archiveprefix = {arXiv}
 }
 ```
 
